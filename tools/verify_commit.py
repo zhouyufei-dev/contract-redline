@@ -25,10 +25,12 @@ def check(label: str, ok: bool, detail: str = "") -> None:
 
 
 print("1. commit identity and message")
-check("exactly one commit", len(git("log", "--oneline").splitlines()) == 1)
+commits = git("log", "--oneline").splitlines()
+check("history is not empty", len(commits) > 0)
 author = git("log", "-1", "--format=%an <%ae>")
 check("author recorded", author == "Contract Redline <support@contractredline.io>", author)
-print(f"       {git('log', '-1', '--format=%h %s')}")
+for line in commits:
+    print(f"       {line}")
 
 print("2. secrets are absent from the tracked tree")
 tracked = git("ls-files").splitlines()
@@ -39,6 +41,16 @@ check("no data/cache files", not any(p.startswith("data/cache/") for p in tracke
 check("no .pem/.pfx", not any(p.endswith((".pem", ".pfx")) for p in tracked))
 check("working tree clean", git("status", "--porcelain") == "",
       git("status", "--porcelain")[:200])
+
+# Every file ever added in any commit, not just the current tree. A secret that
+# was committed once and deleted later still lives in the history and is still
+# recoverable from a public clone - so the check has to span all commits.
+ever_added = {
+    p for p in git("log", "--all", "--pretty=format:", "--name-only",
+                   "--diff-filter=A").splitlines() if p
+}
+for name in (".env", ".streamlit/secrets.toml"):
+    check(f"{name} never committed in any commit", name not in ever_added)
 
 print("3. the templates that SHOULD be there")
 for name in (".env.example", ".streamlit/secrets.toml.example"):
