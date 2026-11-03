@@ -1,0 +1,20 @@
+# Step 3 needs only these two: read a PDF / DOCX into text.
+pdfplumber>=0.11
+python-docx>=1.1
+
+# Step 6 (DeepSeek) needs these two. Left here so nothing surprises us later.
+python-dotenv>=1.0
+openai>=1.40
+
+# The web UI. Streamlit Community Cloud installs *this* file and nothing else, so
+# streamlit has to be listed here or the deployed app has no framework to run on.
+# (requirements-web.txt covers the local install; this line keeps both paths
+# working without asking anyone to pick the right file.)
+#
+# Pinned exactly, unlike the ranges above: this is the version every test in
+# tools/ was run against, and Streamlit's UI APIs move between minor releases. A
+# floating pin means a redeploy can change how the page looks with no commit.
+streamlit==1.66.1
+
+# Note: ranges, not exact pins, so a fresh install does not fail on a version
+# that no longer exists. We will lock exact versions once the MVP runs.

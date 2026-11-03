@@ -1,0 +1,19 @@
+# Streamlit settings, applied to every way the app is started:
+# double-clicking web.ps1, `streamlit run`, and Streamlit Community Cloud
+# (which reads this file from the repository).
+#
+# Keeping them here rather than in web.ps1 also means the deployed site behaves
+# exactly like the local one - the class of bug where the local copy allows a
+# different file size than production cannot happen.
+
+[server]
+# Matches app/web/uploads.py MAX_BYTES (20 MB) and the "up to 20 MB" text on the
+# page. Streamlit's default is 200, which made the uploader advertise
+# "200MB per file" directly under a line promising 20 MB.
+maxUploadSize = 20
+
+[browser]
+# The privacy policy says: no advertising, no tracking pixels, no analytics.
+# Streamlit's usage statistics are telemetry to Streamlit; turning them off keeps
+# the policy literally true on every entry point, not just the one web.ps1 starts.
+gatherUsageStats = false

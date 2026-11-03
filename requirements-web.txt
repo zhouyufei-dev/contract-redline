@@ -1,0 +1,10 @@
+# Web UI (optional). The scanner itself - rules, engine, report - runs without it.
+#
+#   .\.venv\Scripts\python.exe -m pip install -r requirements-web.txt
+#   .\web.ps1
+#
+# Pinned to the exact version the tests were run against, matching
+# requirements.txt. The page uses st.navigation, st.status, st.toggle and
+# st.download_button; those APIs move between minor releases, so a redeploy
+# should not be able to change the UI on its own.
+streamlit==1.66.1

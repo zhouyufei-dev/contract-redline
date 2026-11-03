@@ -1,0 +1,33 @@
+# --- secrets: never commit this ---
+.env
+# Variants people create by accident: .env.bak, .env.prod, .env.local.
+# The .example files stay committable on purpose - they document the key names
+# without holding a value.
+.env.*
+!.env.example
+!.env.sample
+# Streamlit Cloud stores its secrets in this file when you download them, and
+# anybody can create one locally by mistake. Same rule as .env: never committed.
+.streamlit/secrets.toml
+secrets.toml
+*.pem
+*.pfx
+
+# --- python ---
+.venv/
+__pycache__/
+*.py[cod]
+
+# --- generated reports ---
+data/outputs/*
+!data/outputs/.gitkeep
+
+# --- cached LLM replies (regenerable, and they contain contract text) ---
+data/cache/
+
+# --- os noise ---
+Thumbs.db
+.DS_Store
+
+# --- the report folder is regenerable ---
+_scratch/

@@ -1,0 +1,131 @@
+[SAMPLE DOCUMENT - FICTIONAL - CREATED FOR SOFTWARE TESTING ONLY - NOT A REAL AGREEMENT]
+
+MASTER SERVICES AGREEMENT
+
+This Master Services Agreement (this "Agreement") is entered into as of March 3, 2025 (the "Effective Date"), by and between Northwind Retail Group, Inc., a Delaware corporation with offices at 400 Harbor Street, Wilmington, Delaware ("Client"), and Alex Rivera, an individual doing business as Rivera Studio, with offices at 88 Alder Lane, Portland, Oregon ("Contractor").
+
+Client and Contractor may be referred to individually as a "Party" and collectively as the "Parties".
+
+1. SERVICES
+
+1.1 Scope of Services. Contractor shall provide brand identity and web design services as described in each Statement of Work executed by the Parties (each, an "SOW"), including but not limited to logo design, illustration, iconography, user interface mockups, copywriting, photography direction, and such other services as Client may reasonably request from time to time.
+
+1.2 Additional Work. Client may request additional work at any time during the engagement, and Contractor shall perform such additional work at no additional cost where Client determines in good faith that the work falls within the general spirit of the engagement.
+
+1.3 Change Orders. Any change to the scope, fees, or schedule of an SOW must be documented in a written change order signed by both Parties, except where Client determines that the change is minor and does not materially affect the Deliverables.
+
+2. FEES AND PAYMENT
+
+2.1 Fees. Client shall pay the fees set forth in the applicable SOW. Fees are exclusive of taxes, which Client shall bear.
+
+2.2 Payment Terms. Client shall pay each undisputed invoice within sixty (60) days of the invoice date. Invoices are deemed valid upon issuance.
+
+2.3 Acceptance. Payment of the final invoice is due upon Client's final acceptance of the Deliverables. Client may withhold payment until Client is satisfied, in Client's sole discretion, that the Deliverables conform to the applicable SOW. Deliverables shall not be deemed accepted until Client issues written acceptance.
+
+2.4 Pass-Through Funding. Contractor acknowledges that Client's payment obligations hereunder are funded by Client's end client, and Client shall pay Contractor within fifteen (15) days after Client's receipt of payment from the end client for the corresponding milestone.
+
+2.5 Set-Off. Client may set off against any amount owed to Contractor any amount that Client believes in good faith it is owed by Contractor, including amounts relating to delays, third-party claims, chargebacks, or reputational harm.
+
+2.6 Late Payment. Client shall not be obligated to pay interest on any late payment, and Contractor waives any statutory late fee.
+
+2.7 Suspension. Contractor may suspend work if any undisputed invoice remains unpaid for more than thirty (30) days after written notice to Client.
+
+3. REVISIONS
+
+3.1 Revisions. Contractor shall provide unlimited revisions to the Deliverables until Client is satisfied with the results, and shall continue revising the Deliverables as many times as necessary to achieve that result.
+
+3.2 Approved Work. Notwithstanding Section 3.1, Client shall not request unlimited revisions to Deliverables that have been formally approved in a signed change order.
+
+4. INTELLECTUAL PROPERTY
+
+4.1 Assignment. Contractor hereby irrevocably assigns to Client all right, title and interest in and to the Deliverables and all materials created in connection with the Services, including all concepts, drafts, sketches, and unused directions, throughout the world and in perpetuity.
+
+4.2 Work Made for Hire. All Deliverables shall be deemed "work made for hire" under the United States Copyright Act, and to the extent any Deliverable does not qualify as a work made for hire, the assignment in Section 4.1 applies.
+
+4.3 Moral Rights. Contractor waives, and agrees not to assert, any moral rights or rights of attribution in the Deliverables.
+
+4.4 Portfolio. Contractor shall not display the Deliverables, or any portion thereof, in any portfolio, case study, website, or social media post without Client's prior written consent, which Client may withhold in its sole discretion.
+
+4.5 Further Use. Client may modify and adapt the Deliverables, create derivative works from them, sublicense and resell them, and use them to train, fine-tune, or otherwise develop machine learning and generative artificial intelligence models.
+
+5. REPRESENTATIONS AND WARRANTIES
+
+5.1 Contractor warrants that the Deliverables will be error-free, free from defects, fit for Client's particular purpose, and compliant with all applicable laws and regulations.
+
+5.2 Contractor warrants that the Services will be uninterrupted and delivered on schedule.
+
+5.3 Contractor represents that it has the right to grant the rights granted in Section 4.
+
+6. INDEMNIFICATION AND LIABILITY
+
+6.1 Indemnity. Contractor shall indemnify, defend and hold harmless Client and its officers, directors, employees, and affiliates from and against any and all claims, losses, damages, liabilities, costs and expenses, including reasonable attorneys' fees, arising out of or relating to the Services, the Deliverables, or Contractor's performance under this Agreement.
+
+6.2 No Cap. The obligations set forth in Section 6.1 apply without limitation as to amount, duration, or number of claims.
+
+6.3 Client Materials. Contractor shall not be liable for any loss arising solely from materials, content, or instructions supplied by Client, except to the extent caused by Contractor's gross negligence or willful misconduct.
+
+7. TERM AND TERMINATION
+
+7.1 Term. This Agreement commences on the Effective Date and continues until terminated in accordance with this Section 7.
+
+7.2 Termination for Convenience. Client may terminate this Agreement or any SOW at any time, for any reason or for no reason, upon five (5) days' written notice, without further obligation or payment of any kind, including any fee for work in progress.
+
+7.3 Termination by Contractor. Contractor may terminate only in the event of Client's uncured material breach after thirty (30) days' written notice.
+
+7.4 Survival. Sections 4, 5, 6, 8, 9, and 11 survive any termination or expiration of this Agreement.
+
+8. RESTRICTIVE COVENANTS
+
+8.1 Non-Competition. During the term of this Agreement and for twelve (12) months thereafter, Contractor shall not directly or indirectly provide services similar to the Services to any competitor of Client, or to any person or entity engaged in a similar line of business.
+
+8.2 Non-Solicitation. Contractor shall not, directly or indirectly, solicit, engage, or accept work from any client, customer, vendor, employee, or contact of Client that Contractor became aware of during the engagement.
+
+9. CONFIDENTIALITY
+
+9.1 Obligations. Contractor shall keep confidential all information disclosed by Client, whether or not marked as confidential, and shall not use such information for any purpose other than performing the Services.
+
+9.2 Duration. The obligations in this Section 9 shall survive in perpetuity and shall continue indefinitely after termination of this Agreement.
+
+10. SCHEDULE AND LIQUIDATED DAMAGES
+
+10.1 Time is of the essence with respect to all delivery dates set forth in any SOW.
+
+10.2 Liquidated Damages. For each day of delay in delivery of any Deliverable, Contractor shall pay to Client liquidated damages of five hundred dollars ($500.00) per day.
+
+10.3 Client Delays. Client's review periods, delayed feedback, and revisions requested by Client shall not extend any delivery date unless stated in a signed change order.
+
+11. GOVERNING LAW AND DISPUTE RESOLUTION
+
+11.1 Governing Law. This Agreement shall be governed by the laws of the State of Delaware, without regard to its conflict of laws principles.
+
+11.2 Arbitration. Any dispute arising out of or relating to this Agreement shall be resolved by binding arbitration administered in Wilmington, Delaware, under the Commercial Arbitration Rules of the American Arbitration Association.
+
+11.3 Fees. The prevailing party in any arbitration or proceeding shall be entitled to recover its reasonable attorneys' fees and costs.
+
+11.4 Jury Waiver. Each Party waives any right to a trial by jury.
+
+12. GENERAL
+
+12.1 Amendment. Client may modify these terms at any time by posting an updated version on its supplier portal, and Contractor's continued performance constitutes acceptance of the revised terms.
+
+12.2 Assignment. Contractor may not assign this Agreement without Client's prior written consent. Client may assign this Agreement freely.
+
+12.3 Entire Agreement. This Agreement, together with all SOWs, constitutes the entire agreement between the Parties.
+
+12.4 Severability. If any provision is held unenforceable, the remaining provisions shall remain in full force and effect.
+
+12.5 Force Majeure. Neither Party shall be liable for delay caused by events beyond its reasonable control, provided the affected Party gives prompt notice.
+
+IN WITNESS WHEREOF, the Parties have executed this Agreement as of the Effective Date.
+
+NORTHWIND RETAIL GROUP, INC.
+
+By: ______________________________
+Name: Dana Whitfield
+Title: Chief Marketing Officer
+
+CONTRACTOR
+
+By: ______________________________
+Name: Alex Rivera
+Title: Owner, Rivera Studio
