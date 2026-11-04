@@ -2,8 +2,8 @@
 
 **Effective date:** {{effective}}
 
-This policy explains when {{operator}} refunds money for {{product}}. It forms
-part of our [Terms of Service](terms).
+This policy explains when {{operator}} refunds money for {{product}}, sold at
+{{domain}}. It forms part of our [Terms of Service](terms).
 
 ## The short version
 

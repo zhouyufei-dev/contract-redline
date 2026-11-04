@@ -39,6 +39,20 @@ PRODUCT_NAME = "Contract Redline"
 #:     STRIPE_PAYMENT_URL=https://buy.stripe.com/test_...
 DEFAULT_PAYMENT_URL = "https://buy.stripe.com/7sY00jgD89SQ2bEaXcbfO00"
 
+#: TEMPORARY. Cloudflare Email Routing on the new domain is not switched on yet, so
+#: customer mail goes to a Gmail plus-address that already receives today. A plus
+#: address is only a label on an existing inbox: nothing new had to be created, and
+#: mail still lands in yufeizhou111@gmail.com.
+#:
+#: This is a fallback, not a decision. A support address on the company's own domain
+#: is what a payment processor expects to see next to the business name, and it is
+#: what the customer expects too. When support@contractredline.io starts receiving,
+#: delete ``SUPPORT_EMAIL_FALLBACK`` and set ``Site.email`` back to
+#: ``"support@contractredline.io"`` - two lines, and `tools/test_site.py` goes back
+#: to enforcing that the address lives on our own domain (see the check at the end
+#: of section 4 there).
+SUPPORT_EMAIL_FALLBACK = "yufeizhou111+support@gmail.com"
+
 
 def resolve_payment_url(override: str | None) -> str:
     """Pick the Payment Link to put in the button.
@@ -62,7 +76,7 @@ class Site:
     # registered address before the Stripe review, and keep it identical to the
     # address on the Stripe account.
     address: str = "Kowloon, Hong Kong SAR"
-    email: str = "support@contractredline.io"
+    email: str = SUPPORT_EMAIL_FALLBACK
     domain: str = "contractredline.io"
     governing_law: str = "Hong Kong SAR"
     effective: str = EFFECTIVE_DATE
@@ -99,6 +113,11 @@ class Site:
             if "[" in getattr(self, name):
                 out.append(name)
         return out
+
+    @property
+    def email_on_own_domain(self) -> bool:
+        """False while mail goes through the temporary fallback address."""
+        return self.email.endswith("@" + self.domain)
 
     @property
     def copyright_year(self) -> str:

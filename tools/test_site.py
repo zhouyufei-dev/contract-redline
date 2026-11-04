@@ -26,7 +26,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from app.site import LEGAL_PAGES, SITE, Site, fill  # noqa: E402
+from app.site import (  # noqa: E402
+    LEGAL_PAGES,
+    SITE,
+    SUPPORT_EMAIL_FALLBACK,
+    Site,
+    fill,
+)
 
 LEGAL_DIR = ROOT / "app" / "web" / "legal"
 STRICT = "--strict" in sys.argv
@@ -136,8 +142,17 @@ for name, text in ALL.items():
 # and it is invisible on screen because the address still looks plausible. These
 # two checks make the relationship explicit: the email lives on our domain, and
 # no document keeps the old one.
-check("the support address is on our own domain",
-      SITE.email.endswith("@" + SITE.domain), f"{SITE.email} vs {SITE.domain}")
+#
+# While Cloudflare Email Routing is not live, mail goes through one named fallback
+# (see SUPPORT_EMAIL_FALLBACK in app/site.py). The check stays strict: our domain,
+# or exactly that address - any third domain is still a failure, so a typo or a
+# half-finished edit cannot ship a mailbox nobody reads.
+check("the support address is on our own domain, or the one documented fallback",
+      SITE.email_on_own_domain or SITE.email == SUPPORT_EMAIL_FALLBACK,
+      f"{SITE.email} vs {SITE.domain}")
+if not SITE.email_on_own_domain:
+    print(f"  note  mail uses the temporary fallback {SUPPORT_EMAIL_FALLBACK}; "
+          f"switch to support@contractredline.io once routing is live")
 for name, text in ALL.items():
     check(f"{name}: no stale .com address", "contractredline.com" not in text)
     check(f"{name}: names the real domain", SITE.domain in text)

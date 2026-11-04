@@ -146,8 +146,15 @@ check("footer shows the support email", SITE.email in page_blob, SITE.email)
 for legacy in ("[YOUR REGISTERED", "[REGISTERED BUSINESS ADDRESS]", "[SUPPORT EMAIL]",
                "[YOUR DOMAIN"):
     check(f"no leftover {legacy}", legacy not in page_blob)
-check("identity is not the product name repeated",
-      SITE.operator == "Contract Redline" and SITE.email.endswith(SITE.domain))
+# Whether the mailbox sits on our own domain (or the one documented fallback) is
+# decided in tools/test_site.py, section 4. Keeping a second copy of that rule
+# here meant two places to edit every time the address moved, and this copy went
+# stale the moment mail started going through the fallback. What belongs here is
+# only that the footer shows something usable.
+_domain = SITE.email.rsplit("@", 1)[-1] if "@" in SITE.email else ""
+check("footer address is well formed",
+      SITE.operator == "Contract Redline" and "." in _domain and " " not in SITE.email,
+      SITE.email)
 
 print("8. the 20 MB limit is stated the same way everywhere")
 # Three places have to agree or the page contradicts itself, which is what a
