@@ -17,3 +17,7 @@ maxUploadSize = 20
 # Streamlit's usage statistics are telemetry to Streamlit; turning them off keeps
 # the policy literally true on every entry point, not just the one web.ps1 starts.
 gatherUsageStats = false
+[server]
+enableCORS = false
+[browser]
+serverAddress = "contractredline.io"
