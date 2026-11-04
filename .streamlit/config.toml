@@ -5,6 +5,12 @@
 # Keeping them here rather than in web.ps1 also means the deployed site behaves
 # exactly like the local one - the class of bug where the local copy allows a
 # different file size than production cannot happen.
+#
+# ONE [server] table and ONE [browser] table only. TOML forbids declaring a table
+# twice, and Streamlit reacts to the parse error by falling back to its defaults
+# without failing loudly - which silently restored the 200 MB uploader and left
+# the page contradicting itself again. tools/test_web.py parses this file, so a
+# repeat shows up as a failed test instead of a bug on the live site.
 
 [server]
 # Matches app/web/uploads.py MAX_BYTES (20 MB) and the "up to 20 MB" text on the
@@ -17,7 +23,17 @@ maxUploadSize = 20
 # Streamlit's usage statistics are telemetry to Streamlit; turning them off keeps
 # the policy literally true on every entry point, not just the one web.ps1 starts.
 gatherUsageStats = false
-[server]
-enableCORS = false
-[browser]
-serverAddress = "contractredline.io"
+
+# Deliberately NOT set here:
+#
+#   browser.serverAddress - must stay at its default (localhost) and be set by
+#     whatever actually hosts the app. Pointing it at contractredline.io tells
+#     every visitor's browser to open its (single) websocket against that host,
+#     so the page loads and then hangs on "Connecting..." - locally and on
+#     Streamlit Cloud both. A custom domain belongs in the host's domain
+#     settings, not in this file.
+#
+#   server.enableCORS = false - Streamlit disables XSRF protection whenever CORS
+#     is switched off, and there is no proxied deployment here that would need
+#     it. On an app that takes a Checkout Session id in the URL, that protection
+#     is not something to trade away for a cosmetic effect.

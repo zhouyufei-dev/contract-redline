@@ -162,6 +162,14 @@ check("config.toml limit equals MAX_MB", configured == uploads.MAX_MB,
       f"config={configured} code={uploads.MAX_MB}")
 check("MAX_BYTES is MAX_MB in bytes", uploads.MAX_BYTES == uploads.MAX_MB * 1024 * 1024)
 
+# Two settings that look harmless in a tutorial and break this particular app.
+check("config.toml does not pin browser.serverAddress",
+      "serverAddress" not in config.get("browser", {}),
+      str(config.get("browser", {}).get("serverAddress")))
+check("config.toml leaves CORS on (Streamlit ties XSRF to it)",
+      config.get("server", {}).get("enableCORS", True) is not False,
+      str(config.get("server", {}).get("enableCORS")))
+
 page_text = " ".join(m.value for m in at.markdown)
 check("page text states the limit in MB", f"up to {uploads.MAX_MB} MB" in page_text,
       page_text[:200])

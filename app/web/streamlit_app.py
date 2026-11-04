@@ -38,10 +38,10 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# 隐藏 Streamlit 的底栏和右上角菜单
-st.markdown("<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;}</style>", unsafe_allow_html=True)
-
-# Applied once, before the router runs, so every page shares it.
+# Applied once, before the router runs, so every page shares it. The stylesheet
+# also hides Streamlit's own chrome (header, footer, "..." menu, status widget) -
+# kept there, not here, so there is one place to edit and no second rule that can
+# drift out of sync or fight it.
 st.markdown(ui.CSS, unsafe_allow_html=True)
 
 nav = st.navigation(
