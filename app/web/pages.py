@@ -53,6 +53,13 @@ def _render_result() -> None:
     if not result:
         return
 
+    # A payment can arrive while a locked report is already on screen: the
+    # customer paid in another tab, or has just pasted the receipt link into the
+    # box under this report. Spend it before deciding what to draw, otherwise the
+    # report stays locked until the file is scanned a second time - which is the
+    # exact shape of "I paid and nothing happened".
+    paywall.spend_credit(result.get("key", ""))
+
     html = result["html"]
     total = result["cards"]
     src = result["source"]
@@ -109,6 +116,7 @@ def _render_result() -> None:
 
     if not unlocked:
         paywall.page_block(total, shown, result["counts"], result["worst_band"])
+        paywall.unlock_box("report")
 
     if st.button("Scan another contract", key="reset"):
         for key in ("result", "upload_sig"):
@@ -175,13 +183,19 @@ def _run(uploaded, use_llm: bool) -> None:
     # Spend a verified payment on the report it is first shown against. Doing it
     # last matters: `bind` clears the Stripe id out of the address bar, and the
     # paid report must already be sitting in session_state when that happens.
-    if paywall.credit() is not None and not paywall.is_unlocked(key):
-        paywall.bind(key)
+    paywall.spend_credit(key)
 
 
 def scanner() -> None:
     ui.hero()
     paywall.check_return()
+
+    # The automatic paths had nothing to work with: either no reference came
+    # through at all, or the one that did was already spent. Offer the manual one
+    # before the uploader, so a customer who has just paid sees a way forward
+    # immediately instead of uploading and meeting the paywall again.
+    if paywall.credit() is None and not st.session_state.get("result"):
+        paywall.unlock_box("scan")
 
     nonce = st.session_state.get("upload_nonce", 0)
     uploaded = st.file_uploader(

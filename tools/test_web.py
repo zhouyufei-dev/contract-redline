@@ -241,6 +241,71 @@ check("the status widget is not styled twice",
 check("the design itself is still in the stylesheet",
       ".cr-footer" in css and "--critical" in css)
 
+print("11. a paid customer can always get in, without the URL")
+# The bug that cost real money: the customer paid, was redirected to their own
+# domain, and this app lives inside an iframe there, so its own URL never carried
+# `?session_id=`. The reference was on the page the browser could see, the app
+# could not. Everything automatic is a best effort - so there is a box, and it
+# has to work from a fresh page with nothing but a pasted link.
+from app import billing as _billing  # noqa: E402
+
+PAID_SESSION = _billing.Payment(
+    session_id="cs_live_a146vUO294RCnaf4wTM0SzN5OxtOeAydidhiB2ibzoZNOP4J!X0a8s1",
+    paid=True, amount_total=500, currency="usd", mode="payment", status="complete",
+)
+_real_verify = _billing.verify_session
+
+
+def _fake_verify(session_id, secret_key=None):
+    if session_id == PAID_SESSION.session_id:
+        return PAID_SESSION
+    raise _billing.PaymentError("Stripe has no record of that checkout.")
+
+
+try:
+    _billing.verify_session = _fake_verify
+    # Force a fresh session: the app under test has to behave like a stranger's
+    # first visit, not like a continuation of the run above.
+    at = AppTest.from_file(str(ROOT / "app" / "web" / "streamlit_app.py"),
+                           default_timeout=90)
+    at.run()
+    check("a fresh page still runs", not at.exception, str(at.exception))
+
+    boxes = [e for e in at.get("expander")]
+    check("the manual unlock box is on the page",
+          any("Already paid" in str(e.label) for e in boxes),
+          str([str(e.label) for e in boxes]))
+    check("nothing is unlocked before pasting",
+          at.session_state.get("payment_credit") is None)
+
+    at.text_input(key="unlock-value-scan").set_value(
+        "https://contractredline.io/?session_id=" + PAID_SESSION.session_id)
+    at.button(key="unlock-go-scan").click()
+    at.run()
+    check("pasting the receipt runs without error", not at.exception, str(at.exception))
+    check("the payment is verified and held",
+          getattr(at.session_state.get("payment_credit"), "session_id", "")
+          == PAID_SESSION.session_id)
+    check("the customer is told the amount",
+          any("Payment confirmed" in str(s.value) and "$5.00" in str(s.value)
+              for s in at.success),
+          str([str(s.value) for s in at.success]))
+
+    # And a made-up reference unlocks nothing.
+    at2 = AppTest.from_file(str(ROOT / "app" / "web" / "streamlit_app.py"),
+                            default_timeout=90)
+    at2.run()
+    at2.text_input(key="unlock-value-scan").set_value("cs_live_" + "z" * 40)
+    at2.button(key="unlock-go-scan").click()
+    at2.run()
+    check("an invented reference unlocks nothing",
+          at2.session_state.get("payment_credit") is None)
+    check("and the customer is told why",
+          any("no record" in str(e.value) for e in at2.error),
+          str([str(e.value) for e in at2.error]))
+finally:
+    _billing.verify_session = _real_verify
+
 print()
 print(f"{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

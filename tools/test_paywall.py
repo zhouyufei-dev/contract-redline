@@ -253,6 +253,79 @@ finally:
     gate.st = REAL_ST
 
 
+print("E. the payment reference survives a browser that drops it")
+
+
+class FakeContext:
+    """Just enough of `st.context` for the Referer lookup."""
+
+    def __init__(self, headers):
+        self.headers = dict(headers)
+
+
+BUG_REPORT_ID = ("cs_live_a146vUO294RCnaf4wTM0SzN5OxtOeAydidhiB2ibzoZNOP4J"
+                 "!X0a8s1")
+BUG_REPORT_URL = "https://contractredline.io/?session_id=" + BUG_REPORT_ID
+
+# The exact link from the bug report. `!` is legal inside a live session id and
+# survives a copy-paste from the address bar, so it has to survive us too.
+check("the live link from the bug report is readable",
+      gate.parse_session_id(BUG_REPORT_URL) == BUG_REPORT_ID,
+      gate.parse_session_id(BUG_REPORT_URL))
+check("a bare id is accepted",
+      gate.parse_session_id(BUG_REPORT_ID) == BUG_REPORT_ID)
+ENCODED = "cs_live_" + "a" * 20 + "!X0a8s1"
+check("an encoded ! is decoded",
+      gate.parse_session_id("https://x/?session_id=" + ENCODED.replace("!", "%21"))
+      == ENCODED)
+check("extra parameters do not leak into the id",
+      gate.parse_session_id("https://x/?session_id=cs_live_" + "c" * 40 + "&paid=true")
+      == "cs_live_" + "c" * 40)
+check("trailing punctuation is dropped",
+      gate.parse_session_id("cs_live_" + "b" * 40 + ".") == "cs_live_" + "b" * 40)
+check("quoting from an email is tolerated",
+      gate.parse_session_id('"' + BUG_REPORT_ID + '"') == BUG_REPORT_ID)
+check("prose is rejected", gate.parse_session_id("I paid yesterday") == "")
+check("an empty box is rejected", gate.parse_session_id("   ") == "")
+check("a non-Stripe id is rejected", gate.parse_session_id("https://x/?session_id=paid%3Dtrue") == "")
+
+# The iframe case: the app's own URL has no parameters, the embedding page's URL
+# is the only place the id exists, and it reaches the server as `Referer`.
+fake = FakeSt()
+gate.st = fake
+try:
+    fake.context = FakeContext({"referer": BUG_REPORT_URL})
+    check("the embedding page's URL is read from Referer",
+          gate.session_id_from_referer() == BUG_REPORT_ID,
+          gate.session_id_from_referer())
+    check("the app's own query string is empty in that case",
+          gate.session_id_from_url() == "")
+
+    fake.context = FakeContext({"host": "contractredline.io"})
+    check("no Referer means no claim", gate.session_id_from_referer() == "")
+
+    fake.context = FakeContext({"referer": "https://google.com/"})
+    check("an unrelated Referer is not a payment", gate.session_id_from_referer() == "")
+
+    # A missing `st.context` (older Streamlit, bare mode) must not raise.
+    del fake.context
+    check("a missing st.context is not an error", gate.session_id_from_referer() == "")
+
+    # One payment, one report - including when the receipt is pasted twice.
+    fake.session_state[gate.CREDIT_KEY] = payment
+    check("the first contract unlocks", gate.spend_credit("contract-one"))
+    check("the payment is recorded as spent", gate.already_spent(payment.session_id))
+
+    fake.session_state[gate.CREDIT_KEY] = payment
+    check("the same receipt does not unlock a second contract",
+          not gate.spend_credit("contract-two"))
+    check("and the stale credit is dropped", gate.credit() is None)
+    check("the first contract is still unlocked", gate.is_unlocked("contract-one"))
+    check("the second one is not", not gate.is_unlocked("contract-two"))
+finally:
+    gate.st = REAL_ST
+
+
 print("D. one price, everywhere")
 
 check("site.py holds the price", SITE.price == "$5", SITE.price)
