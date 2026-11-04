@@ -38,6 +38,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# 隐藏 Streamlit 的底栏和右上角菜单
+st.markdown("<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;}</style>", unsafe_allow_html=True)
+
 # Applied once, before the router runs, so every page shares it.
 st.markdown(ui.CSS, unsafe_allow_html=True)
 
