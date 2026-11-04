@@ -206,6 +206,26 @@ check("the web path asks the pipeline for no cache", captured.get("use_cache") i
       str(captured.get("use_cache")))
 check("the web path still explains with the AI", captured.get("use_llm") is True)
 
+print("10. Streamlit's own chrome is hidden, from one place")
+# The product page must not show the dev toolbar, the "..." menu, the footer or
+# the running-status widget. These four were spread over two rules once, and an
+# edit could quietly leave half of them on - so the stylesheet is now the single
+# source and this pins it.
+from app.web import ui  # noqa: E402
+
+css = ui.CSS
+for selector in ('#MainMenu', 'footer', 'header[data-testid="stHeader"]',
+                 'div[data-testid="stStatusWidget"]'):
+    check(f"{selector} is hidden", selector in css)
+check("the hide rules cannot be overridden",
+      css.count("visibility: hidden !important") == 1,
+      str(css.count("visibility: hidden !important")))
+check("the status widget is not styled twice",
+      css.count('data-testid="stStatusWidget"') == 1,
+      str(css.count('data-testid="stStatusWidget"')))
+check("the design itself is still in the stylesheet",
+      ".cr-footer" in css and "--critical" in css)
+
 print()
 print(f"{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

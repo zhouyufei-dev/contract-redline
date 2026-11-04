@@ -25,8 +25,13 @@ CSS = """
   --critical: #b42318;
 }
 
-/* Streamlit chrome: this is a product page, not a notebook. */
-#MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
+/* Streamlit chrome: this is a product page, not a notebook.
+   Header, footer, the "..." menu and the running-status widget all belong to
+   the dev tool, not to the product. `visibility` instead of `display` keeps the
+   layout metrics Streamlit's own JS reads while the app boots; height:0 stops
+   the hidden header from reserving its 3.75rem strip at the top. */
+#MainMenu, footer, header[data-testid="stHeader"],
+div[data-testid="stStatusWidget"] { visibility: hidden !important; height: 0 !important; }
 [data-testid="stSidebarNav"] { display: none; }
 [data-testid="stSidebar"] { display: none; }
 .block-container {
@@ -289,8 +294,8 @@ a.cr-paywall-cta:hover { background: #efece3; color: var(--ink) !important; }
 /* Streamlit's toggle label. */
 [data-testid="stWidgetLabel"] p { font-size: 13.5px; color: var(--body); }
 
-/* Keep the status box quiet and aligned with the rest. */
-[data-testid="stStatusWidget"] { margin-bottom: 10px; }
+/* The status widget is hidden with the rest of the chrome, up in the header
+   rule - one place for all of it, so a later edit cannot leave half of it on. */
 
 /* ---- legal pages ------------------------------------------------------- */
 
