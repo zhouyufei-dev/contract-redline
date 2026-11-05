@@ -197,6 +197,16 @@ def scanner() -> None:
     if paywall.credit() is None and not st.session_state.get("result"):
         paywall.unlock_box("scan")
 
+    # Sits directly above the box it describes. The price is read from SITE so
+    # this line cannot drift from the Stripe link, the paywall and the legal
+    # pages, which all quote the same number.
+    st.markdown(
+        f'<p class="cr-offer">Your first risk check is <strong>free</strong>. '
+        f'Unlock the complete 20-point report for just '
+        f'<strong>{SITE.price}</strong> &mdash; one-time payment, no subscription.</p>',
+        unsafe_allow_html=True,
+    )
+
     nonce = st.session_state.get("upload_nonce", 0)
     uploaded = st.file_uploader(
         "Your contract",
@@ -223,11 +233,19 @@ def scanner() -> None:
 
     pressed = st.button("Scan My Contract", type="primary", key="scan")
 
+    # Verified, not aspirational: uploads.py writes the bytes to a temp folder and
+    # removes that folder in a finally block, and the web path passes
+    # use_cache=False so no clause is kept by the LLM cache either.
+    # tools/verify_upload_disposal.py proves it; keep this sentence true or drop it.
+    st.markdown(
+        '<p class="cr-trust">No account required. Your uploaded file is deleted '
+        'after the scan finishes.</p>',
+        unsafe_allow_html=True,
+    )
+
     st.markdown(
         f'<p class="cr-fine"><strong>PDF or DOCX</strong> &middot; up to '
-        f'{uploads.MAX_MB} MB &middot; '
-        'your file is deleted the moment the scan finishes<br>'
-        f'Free preview &middot; {SITE.price} unlocks the full report &middot; '
+        f'{uploads.MAX_MB} MB<br>'
         'This is software, not a law firm — it is not legal advice.</p>',
         unsafe_allow_html=True,
     )

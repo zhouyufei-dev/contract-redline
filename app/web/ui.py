@@ -74,14 +74,53 @@ html, body, [class*="css"], .stMarkdown, p, li, label, input, button {
 }
 
 .cr-sub {
-  margin: 0 0 30px;
-  font-size: 16.5px;
-  line-height: 1.62;
-  color: var(--body);
-  max-width: 62ch;
+  margin: 0 0 14px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 60ch;
 }
 
 .cr-sub strong { color: var(--ink); font-weight: 600; }
+
+/* The paragraph under the subtitle: what the tool actually does. Quieter than
+   the sub, larger than the small print, so the three lines read as one
+   descending scale rather than three competing blocks. */
+.cr-lede {
+  margin: 0 0 30px;
+  font-size: 15px;
+  line-height: 1.68;
+  color: var(--body);
+  max-width: 66ch;
+}
+
+/* The free-check / price line, directly above the upload box. */
+.cr-offer {
+  margin: 0 0 10px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--body);
+}
+.cr-offer strong { color: var(--ink); font-weight: 650; }
+
+/* The privacy promise under the button. One shade louder than the fine print
+   below it: it is the reason a stranger trusts the upload box with a contract. */
+.cr-trust {
+  margin: 14px 0 6px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+/* Phones: the 40px headline and the 17px sub both wrap hard below ~640px, and
+   the headline ran to four lines. Scaled down rather than reflowed - same
+   proportions, just smaller, so desktop is untouched. */
+@media (max-width: 640px) {
+  .cr-h1 { font-size: 29px; line-height: 1.18; }
+  .cr-sub { font-size: 15.5px; }
+  .cr-lede { font-size: 14.5px; }
+  .block-container { padding-top: 1.6rem; }
+}
 
 /* The upload box: the biggest thing on the page, on purpose. */
 [data-testid="stFileUploaderDropzone"] {
@@ -365,12 +404,16 @@ def hero() -> None:
     st.markdown(
         """
         <p class="cr-kicker"><span></span>Contract Redline</p>
-        <h1 class="cr-h1">Know what you are signing.</h1>
+        <h1 class="cr-h1">Protect Your Work Before You Sign.</h1>
         <p class="cr-sub">
-          Upload the contract a client sent you. We read it clause by clause and
-          show you the ones that can cost you money, your work, or your rights —
-          with the exact sentence, why it matters, and <strong>what to ask them
-          to change</strong>. Plain English, before you sign.
+          Spot hidden contract risks before they cost you money, time, or
+          ownership of your work.
+        </p>
+        <p class="cr-lede">
+          Upload your freelance contract. Our rule-based checker scans 20 common
+          contract risk types and shows you the clauses that deserve a closer
+          look — with plain-English explanations and practical negotiation
+          suggestions.
         </p>
         """,
         unsafe_allow_html=True,
