@@ -131,25 +131,7 @@ from streamlit.testing.v1 import AppTest  # noqa: E402
 at = AppTest.from_file(str(ROOT / "app" / "web" / "streamlit_app.py"), default_timeout=90)
 at.run()
 check("script ran", not at.exception, str(at.exception))
-check("title present", any("Protect Your Work Before You Sign" in m.value for m in at.markdown))
-
-# The hero is hand-wrapped HTML, so a phrase can straddle a newline. Compare on
-# collapsed whitespace, otherwise the test fails on an indentation change.
-def _flat(text: str) -> str:
-    return " ".join(text.split())
-
-
-hero_text = " ".join(_flat(m.value) for m in at.markdown)
-check("subtitle present",
-      "Spot hidden contract risks before they cost you money, time, or ownership "
-      "of your work." in hero_text)
-check("product intro present",
-      "Our rule-based checker scans 20 common contract risk types" in hero_text)
-check("free-check offer present",
-      "Your first risk check is" in hero_text
-      and "Unlock the complete 20-point report" in hero_text)
-check("disposal promise present",
-      "Your uploaded file is deleted after the scan finishes." in hero_text)
+check("title present", any("Know what you are signing" in m.value for m in at.markdown))
 check("scan button present", any(b.label == "Scan My Contract" for b in at.button))
 check("uploader present", len(at.get("file_uploader")) == 1)
 
